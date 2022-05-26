@@ -1,0 +1,21 @@
+<main>
+    <form action="#" method="post" class="cat-form" enctype="multipart/form-data">
+        <h2>Edit Cat</h2>
+        <label for="name">name</label>
+        <input type="text" id="name" name="name" value="{{cat.name}}">
+        <label for="description">Description</label>
+        <textarea id="description" name="description">{{cat.description}}</textarea>
+        <label for="image">Image</label>
+        <input type="file" id="image" name="upload">
+        <label for="group">Breed</label>
+        <select id="group">
+            {{#each breeds}}
+                    <option name="breed" value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+        <button>Edit Cat</button>
+    </form>
+    </main>
+</body>
+
+</html>
