@@ -1,23 +1,37 @@
 [
     {
-        "name" : "GAN356 AIR SM",
-        "difficulty" : "3",
-        "img" : "https://ae01.alicdn.com/kf/HTB1CSddXRxRMKJjy0Fdq6yifFXa6/Gan-356-Air-SM-3x3-Black-Magic-cube-GAN-Air-SM-Magnetic-3x3x3-Speed-cube-gans.jpg",
-        "description" : "Idk what to write here but here you go!1",
-        "id" : "0"
+        "name": "GAN356 AIR SM",
+        "difficulty": "3",
+        "img": "https://ae01.alicdn.com/kf/HTB1CSddXRxRMKJjy0Fdq6yifFXa6/Gan-356-Air-SM-3x3-Black-Magic-cube-GAN-Air-SM-Magnetic-3x3x3-Speed-cube-gans.jpg",
+        "description": "Idk what to write here but here you go!1",
+        "id": "0"
     },
     {
-        "name" : "Cube Hell Yeah",
-        "difficulty" : "5",
-        "img" : "https://thingsidesire.com/wp-content/uploads/2018/06/Eco-Dark-Rubik%E2%80%99s-Cube2.jpg",
-        "description" : "Idk what to write here but here you go!2",
-        "id" : "1"
+        "name": "Cube Hell Yeah",
+        "difficulty": "5",
+        "img": "https://thingsidesire.com/wp-content/uploads/2018/06/Eco-Dark-Rubik%E2%80%99s-Cube2.jpg",
+        "description": "Idk what to write here but here you go!2",
+        "id": "1"
     },
     {
-        "name" : "Definately not a cube",
-        "difficulty" : "7",
-        "img" : "https://images-na.ssl-images-amazon.com/images/I/61izOzq%2BBAL._SY355_.jpg",
-        "description" : "Idk what to write here but here you go!3",
-        "id" : "2"
+        "name": "Definately not a cube",
+        "difficulty": "7",
+        "img": "https://images-na.ssl-images-amazon.com/images/I/61izOzq%2BBAL._SY355_.jpg",
+        "description": "Idk what to write here but here you go!3",
+        "id": "2"
+    },
+    {
+        "name": "Peter",
+        "description": "Peter is a cube",
+        "img": "https://novo-dostavka.today/PICS/4-%D1%86%D0%B2%D1%8F%D1%82-3x3x3-magic-cubes-%D0%BF%D1%80%D0%BE%D1%84%D0%B5%D1%81%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D0%B5%D0%BD-1-160241.jpeg",
+        "difficulty": "6",
+        "id": 88
+    },
+    {
+        "name": "Stojan",
+        "description": "Very fat cube",
+        "img": "https://i.pinimg.com/564x/cc/4d/30/cc4d30f39f198b38983d8f5d7e6eda32--rubiks-cube-brain-teasers.jpg",
+        "difficulty": "2",
+        "id": 17
     }
 ]

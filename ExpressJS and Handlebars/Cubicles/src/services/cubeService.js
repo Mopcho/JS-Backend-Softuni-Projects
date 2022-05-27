@@ -16,7 +16,18 @@ async function getCube(id) {
     return cube;
 }
 
+async function addCube(cube) {
+    let allCubes = await fs.readFile('./src/cubes.json',{encoding:'utf-8'});
+
+    allCubes = JSON.parse(allCubes);
+
+    allCubes.push(cube);
+
+    await fs.writeFile('./src/cubes.json',JSON.stringify(allCubes,null,4));
+}
+
 exports.cubeService = {
     getAll,
-    getCube
+    getCube,
+    addCube
 }
