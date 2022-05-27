@@ -59,8 +59,6 @@ app.get('/search?name=:name', catMiddleware,  (req,res)=> {
 
     cats.filter(cat => cat.name.includes(catName));
 
-    console.log(req.params)
-
     res.render('home',{layout:'main',cats: cats});
 });
 
@@ -97,7 +95,7 @@ app.post('/cats/add-cat', catMiddleware ,(req,res)=> {
 });
 
 app.post('/cats/edit-cat/:id', catMiddleware , (req,res)=> {
-   
+   req.cats.filter(cat => cat.id == req.params.id);
 });
 
 app.listen(port,()=> {console.log(`Server listening on port ${port}`)});
@@ -108,4 +106,3 @@ app.listen(port,()=> {console.log(`Server listening on port ${port}`)});
 
 //Reworks :
 // use fs module
-// When getting edit cat html select the current breed of the cat

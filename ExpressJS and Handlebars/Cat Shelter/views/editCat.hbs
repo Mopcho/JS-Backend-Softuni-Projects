@@ -10,7 +10,12 @@
         <label for="group">Breed</label>
         <select id="group">
             {{#each breeds}}
-                    <option name="breed" value="{{this}}">{{this}}</option>
+                    {{#when ../cat.breed 'eq' this}}
+                    <option name="breed" value="{{this}}" selected>{{this}}</option>]
+                    {{/when}}
+                    {{#when ../cat.breed 'noteq' this}}
+                    <option name="breed" value="{{this}}">{{this}}</option>]
+                    {{/when}}
             {{/each}}
         </select>
         <button>Edit Cat</button>
