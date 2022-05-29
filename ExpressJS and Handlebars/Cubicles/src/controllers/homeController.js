@@ -5,8 +5,6 @@ const router = require('express').Router();
 router.get('/', async (req,res)=> {
     let allCubes = await cubeService.getAll();
 
-    allCubes = JSON.parse(allCubes);
-
     let search = req.query.search;
     let from = req.query.from;
     let to = req.query.to;

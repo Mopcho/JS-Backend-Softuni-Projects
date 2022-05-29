@@ -1,15 +1,15 @@
 const fs = require('fs/promises');
 
 async function getAll() {
-    let allCubes = await fs.readFile('./src/cubes.json',{encoding:'utf-8'});
+    let cubes = await fs.readFile('./src/cubes.json',{encoding:'utf-8'});
+
+    let allCubes = JSON.parse(cubes);
     
     return allCubes;
 }
 
 async function getCube(id) {
-    let allCubes = await fs.readFile('./src/cubes.json',{encoding:'utf-8'});
-
-    allCubes = JSON.parse(allCubes);
+    let allCubes = await getAll();
     
     let cube = allCubes.filter(cube => cube.id == id)[0];
 
@@ -17,9 +17,7 @@ async function getCube(id) {
 }
 
 async function addCube(cube) {
-    let allCubes = await fs.readFile('./src/cubes.json',{encoding:'utf-8'});
-
-    allCubes = JSON.parse(allCubes);
+    let allCubes = await getAll();
 
     allCubes.push(cube);
 
@@ -27,21 +25,18 @@ async function addCube(cube) {
 }
 
 async function reRenderCube(cubeToBeRendered) {
-    let cubes = await getAll();
+    let allCubes = await getAll();
 
-    let allCubes = JSON.parse(cubes);
-
-    console.log(cubeToBeRendered.id);
+    console.log(allCubes)
+    console.log(cubeToBeRendered)
 
     for (let i=0;i<allCubes.length;i++) {
-        console.log(allCubes[i].id);
-        console.log(cubeToBeRendered.id);
         if(allCubes[i].id == cubeToBeRendered.id) {
             allCubes[i] = cubeToBeRendered;
         }
     }
 
-    await fs.writeFile('./src/cubes.json',allCubes);
+    await fs.writeFile('./src/cubes.json',JSON.stringify(allCubes,null,4));
 }
 
 exports.cubeService = {
