@@ -8,8 +8,6 @@ router.get('/create', (req,res)=> {
 router.get('/details/:id', async (req,res)=> {
     let cube = await  cubeService.getCube(req.params.id);
 
-    console.log(cube);
-
     res.render('details',{cube : cube});
 }); 
 
@@ -21,6 +19,7 @@ router.post('/create',async (req,res)=> {
         description : req.body.description,
         img : req.body.imageUrl,
         difficulty : req.body.difficultyLevel,
+        likes : 0,
         id
     }
 
@@ -28,5 +27,15 @@ router.post('/create',async (req,res)=> {
 
     res.redirect('/');
 });
+
+router.get('/like/:id',async  (req,res)=> {
+    let cube = await cubeService.getCube(req.params.id);
+
+    cube.likes++;
+
+    await cubeService.reRenderCube(cube);
+
+    res.redirect('/');
+})
 
 exports.cubeController = router;

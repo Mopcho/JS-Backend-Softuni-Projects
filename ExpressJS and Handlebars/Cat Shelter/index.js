@@ -34,6 +34,8 @@ app.use('/public',express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(express.urlencoded({extended:false}));
+
 app.get('/',breedsMiddleware, catMiddleware , (req,res) => {
     res.render('home',{layout:'main',cats : req.cats});
 });
@@ -92,10 +94,6 @@ app.post('/cats/add-cat', catMiddleware ,(req,res)=> {
 
         res.redirect('/');
     });
-});
-
-app.post('/cats/edit-cat/:id', catMiddleware , (req,res)=> {
-   req.cats.filter(cat => cat.id == req.params.id);
 });
 
 app.listen(port,()=> {console.log(`Server listening on port ${port}`)});
