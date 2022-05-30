@@ -27,9 +27,6 @@ async function addCube(cube) {
 async function reRenderCube(cubeToBeRendered) {
     let allCubes = await getAll();
 
-    console.log(allCubes)
-    console.log(cubeToBeRendered)
-
     for (let i=0;i<allCubes.length;i++) {
         if(allCubes[i].id == cubeToBeRendered.id) {
             allCubes[i] = cubeToBeRendered;
