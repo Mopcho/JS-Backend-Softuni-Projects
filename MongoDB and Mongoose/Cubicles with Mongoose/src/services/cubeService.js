@@ -19,7 +19,15 @@ async function getAll() {
     return allCubes;
 }
 
+async function getCubeById(id) {
+    let cube = await Cube.findById(id).lean();
+
+    return cube;
+}
+
 exports.cubeService = {
     postCube,
-    getAll
+    getAll,
+    getCubeById,
+    likeCubeById
 }
