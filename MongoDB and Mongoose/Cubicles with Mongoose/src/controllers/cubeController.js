@@ -26,4 +26,10 @@ router.post('/create', async (req,res)=> {
     res.redirect('/');
 });
 
+router.get('/like/:id', async (req,res)=> {
+    await cubeService.likeCubeById(req.params.id);
+
+    res.redirect('/');
+});
+
 exports.cubeController = router;

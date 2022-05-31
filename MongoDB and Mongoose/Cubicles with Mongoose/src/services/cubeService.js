@@ -25,9 +25,35 @@ async function getCubeById(id) {
     return cube;
 }
 
+async function likeCubeById(id) {
+    await Cube.findByIdAndUpdate(id,{ $inc: { likes : 1 } });
+}
+
+async function searchByNameAndDiff(name = '',fromI = 0,toI = 7) {
+    let from;
+    let to;
+
+    if (fromI == '') {
+        from = 0;
+    } else {
+        from = Number(fromI) - 1;
+    }
+    
+    if(toI == '') {
+        to = 7;
+    } else {
+        to = Number(toI) + 1;
+    }
+
+    let cubes = await Cube.find({ "name": { "$regex": name, "$options": "i" } }).where("difficultyLevel").lt(to).gt(from).lean();
+
+    return cubes;
+}
+
 exports.cubeService = {
     postCube,
     getAll,
     getCubeById,
-    likeCubeById
+    likeCubeById,
+    searchByNameAndDiff
 }
