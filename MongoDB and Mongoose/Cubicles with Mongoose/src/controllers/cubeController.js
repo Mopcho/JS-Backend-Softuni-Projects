@@ -32,4 +32,25 @@ router.get('/like/:id', async (req,res)=> {
     res.redirect('/');
 });
 
+router.get('/edit/:id', async (req,res)=> {
+    //May be replaced so you can get your difficultyLevel filled with the cube you are editing
+    let cube = await cubeService.getCubeById(req.params.id);
+
+    res.render('create', {cube : cube});
+});
+
+router.post('/edit/:id', async (req,res)=> {
+    let cubeObj = {
+        name : req.body.name,
+        description : req.body.description,
+        imgPath : req.body.imageUrl,
+        difficultyLevel : req.body.difficultyLevel,
+        likes : 0
+    }
+
+    await cubeService.editCubeById(req.params.id,cubeObj);
+
+    res.redirect('/');
+});
+
 exports.cubeController = router;

@@ -38,7 +38,7 @@ async function searchByNameAndDiff(name = '',fromI = 0,toI = 7) {
     } else {
         from = Number(fromI) - 1;
     }
-    
+
     if(toI == '') {
         to = 7;
     } else {
@@ -50,10 +50,17 @@ async function searchByNameAndDiff(name = '',fromI = 0,toI = 7) {
     return cubes;
 }
 
+async function editCubeById(id,cube) {
+    console.log(cube);
+
+    await Cube.findByIdAndUpdate(id, {name : cube.name, difficultyLevel : cube.difficultyLevel , imgPath : cube.imgPath, description: cube.description});
+}
+
 exports.cubeService = {
     postCube,
     getAll,
     getCubeById,
     likeCubeById,
-    searchByNameAndDiff
+    searchByNameAndDiff,
+    editCubeById
 }

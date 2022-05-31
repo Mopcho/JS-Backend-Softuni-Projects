@@ -8,6 +8,8 @@ const cubeSchema = new mongoose.Schema({
     imgPath : String
 });
 
+//methods , queries , virtuals , middlewares ( pre , post )
+
 const Cube = mongoose.model('Cube',cubeSchema);
 
 module.exports = {

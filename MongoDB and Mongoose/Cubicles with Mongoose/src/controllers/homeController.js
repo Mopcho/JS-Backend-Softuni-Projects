@@ -22,4 +22,7 @@ router.get('/about',(req,res)=> {
     res.render('about');
 }); 
 
+
+
+
 exports.homeController = router;
