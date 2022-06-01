@@ -25,3 +25,7 @@ app.use(express.urlencoded({extended:false}));
 app.use(router);
 
 app.listen(port,()=> {console.log(`App listnening on port ${port}...`)});
+
+//Tie accessory model and cube Model together
+//Edit detailsPage with correct info
+//Create accessory page

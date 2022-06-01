@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { Cube } = require('../Models/Cube');
 const {cubeService }= require('../services/cubeService');
 
 router.get('/create',(req,res)=> {
@@ -18,7 +17,8 @@ router.post('/create', async (req,res)=> {
         description : req.body.description,
         imgPath : req.body.imageUrl,
         difficultyLevel : req.body.difficultyLevel,
-        likes : 0
+        likes : 0,
+        accessories : []
     }
 
     await cubeService.postCube(cubeObj);
@@ -33,10 +33,11 @@ router.get('/like/:id', async (req,res)=> {
 });
 
 router.get('/edit/:id', async (req,res)=> {
-    //May be replaced so you can get your difficultyLevel filled with the cube you are editing
     let cube = await cubeService.getCubeById(req.params.id);
 
     res.render('create', {cube : cube});
+
+    //May need refactoring so you can remove accessories from a cube 
 });
 
 router.post('/edit/:id', async (req,res)=> {
@@ -45,7 +46,6 @@ router.post('/edit/:id', async (req,res)=> {
         description : req.body.description,
         imgPath : req.body.imageUrl,
         difficultyLevel : req.body.difficultyLevel,
-        likes : 0
     }
 
     await cubeService.editCubeById(req.params.id,cubeObj);

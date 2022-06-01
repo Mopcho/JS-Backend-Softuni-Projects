@@ -7,10 +7,13 @@ async function postCube(cube) {
         description : cube.description,
         difficultyLevel : cube.difficultyLevel,
         imgPath : cube.imgPath,
-        likes : cube.likes
+        likes : cube.likes,
+        accessories : cube.accessories
         });
 
     await newCube.save();
+
+    //Check this if this works with accessories
 }
 
 async function getAll() {
@@ -51,9 +54,14 @@ async function searchByNameAndDiff(name = '',fromI = 0,toI = 7) {
 }
 
 async function editCubeById(id,cube) {
-    console.log(cube);
+    await Cube.findByIdAndUpdate(id, {
+        name : cube.name, 
+        difficultyLevel : cube.difficultyLevel , 
+        imgPath : cube.imgPath, 
+        description: cube.description, 
+        accessories : cube.accessories });
 
-    await Cube.findByIdAndUpdate(id, {name : cube.name, difficultyLevel : cube.difficultyLevel , imgPath : cube.imgPath, description: cube.description});
+    //May need refactoring so you dont have to edit this all the time you add a new property to a model
 }
 
 exports.cubeService = {
