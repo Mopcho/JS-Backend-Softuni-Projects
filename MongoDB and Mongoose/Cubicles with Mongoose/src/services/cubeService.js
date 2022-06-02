@@ -12,8 +12,6 @@ async function postCube(cube) {
         });
 
     await newCube.save();
-
-    //Check this if this works with accessories
 }
 
 async function getAll() {

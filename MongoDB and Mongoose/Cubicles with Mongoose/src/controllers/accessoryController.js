@@ -9,7 +9,7 @@ router.get('/create', (req,res) => {
 router.post('/create', async (req,res)=> {
     let accessoryObj = {
         name : req.body.name,
-        imgPath : req.body.imgPath,
+        imgPath : req.body.imageUrl,
         description : req.body.description,
         cubes : []
     }
@@ -33,7 +33,7 @@ router.post('/attach/:id', async (req,res)=> {
     accessory.cubes.push(cube._id);
     cube.accessories.push(req.body.accessory);
 
-    await accessoryService.editAceessoryById(req.body.accessory,accessory);
+    await accessoryService.editAceessoryById(req.body.accessory,accessory); //Req
     await cubeService.editCubeById(cube._id,cube); //Req
 
     res.redirect('/');

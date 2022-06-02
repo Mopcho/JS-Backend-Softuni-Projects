@@ -38,11 +38,18 @@ async function editAceessoryById(id,accessory) {
     });
 }
 
+async function getAccessories(accessoriesArr) {
+    let accessories = await Accessory.find({"_id" : {$in : accessoriesArr}}).lean();
+
+    return accessories;
+}
+
 
 exports.accessoryService = {
     createAccessory,
     getAll,
     filterOut,
     getById,
-    editAceessoryById
+    editAceessoryById,
+    getAccessories
 }

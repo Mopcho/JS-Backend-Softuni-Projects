@@ -9,7 +9,7 @@ const accessorySchema = new mongoose.Schema({
         type : String,
         validate : {
             validator : function(v) {
-                return v.contains('http');
+                return v.includes('http');
             }
         }
     },
