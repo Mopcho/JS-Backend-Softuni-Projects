@@ -1,18 +1,10 @@
 const express = require('express');
 const hbs = require('express-handlebars');
-const mongoose = require('mongoose');
+const { initializeDatabase } = require('./configs/database');
 const { router } = require('./router');
 
 const port = 5000;
 const app = express();
-const url = 'mongodb://localhost:27017/cubicles';
-mongoose.connect(url)
-    .then(()=> {
-        console.log('Database Connected !');
-    })
-    .catch((err)=> {
-        console.log(err);
-    });
 
 app.use(express.static('public'));
 
@@ -24,8 +16,12 @@ app.use(express.urlencoded({extended:false}));
 
 app.use(router);
 
-app.listen(port,()=> {console.log(`App listnening on port ${port}...`)});
+initializeDatabase()
+    .then(() => {
+        app.listen(port, () => console.log(`App is listening on port 5000`));
+    })
+    .catch((err) => {
+        console.log('Cannot connect to db:', err);
+    });
 
-
-//Edit detailsPage with correct info
 //Refactor 

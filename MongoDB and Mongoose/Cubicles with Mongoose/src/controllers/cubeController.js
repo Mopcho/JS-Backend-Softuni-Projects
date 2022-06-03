@@ -7,10 +7,9 @@ router.get('/create',(req,res)=> {
 }); 
 
 router.get('/details/:id',async (req,res)=> {
-    let cube = await cubeService.getCubeById(req.params.id);
-    let accessories = await accessoryService.getAccessories(cube.accessories);
+    let cube = await cubeService.getCubeWithAccessoriesById(req.params.id);
 
-    res.render('details', {cube : cube, accessories : accessories});
+    res.render('details', {cube : cube});
 }); 
 
 router.post('/create', async (req,res)=> {

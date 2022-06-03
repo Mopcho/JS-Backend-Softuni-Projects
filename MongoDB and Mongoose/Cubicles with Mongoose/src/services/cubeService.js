@@ -62,11 +62,18 @@ async function editCubeById(id,cube) {
     //May need refactoring so you dont have to edit this all the time you add a new property to a model
 }
 
+async function getCubeWithAccessoriesById(cubeId) {
+    let cube = await Cube.findById(cubeId).populate('accessories').lean();
+
+    return cube;
+}
+
 exports.cubeService = {
     postCube,
     getAll,
     getCubeById,
     likeCubeById,
     searchByNameAndDiff,
-    editCubeById
+    editCubeById,
+    getCubeWithAccessoriesById
 }

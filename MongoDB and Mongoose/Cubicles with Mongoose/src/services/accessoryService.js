@@ -1,4 +1,5 @@
 const { Accessory } = require("../Models/Accessory");
+const { Cube } = require("../Models/Cube");
 
 async function createAccessory(accessoryObj) {
     let accessory = new Accessory({
@@ -44,6 +45,18 @@ async function getAccessories(accessoriesArr) {
     return accessories;
 }
 
+async function attachAccessory(cubeId , accessoryId) {
+    const cube = await Cube.findById(cubeId);
+    const accessory = await Accessory.findById(accessoryId);
+
+    cube.accessories.push(accessory);
+    accessory.cubes.push(cube);
+
+    await cube.save();
+    await accessory.save();
+
+    return cube;
+}
 
 exports.accessoryService = {
     createAccessory,
@@ -51,5 +64,6 @@ exports.accessoryService = {
     filterOut,
     getById,
     editAceessoryById,
-    getAccessories
+    getAccessories,
+    attachAccessory
 }

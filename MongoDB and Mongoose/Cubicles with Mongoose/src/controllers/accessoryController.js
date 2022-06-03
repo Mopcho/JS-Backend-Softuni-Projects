@@ -27,18 +27,9 @@ router.get('/attach/:id',async  (req,res) => {
 });
 
 router.post('/attach/:id', async (req,res)=> {
-    let cube = await cubeService.getCubeById(req.params.id); //Req
-    let accessory = await accessoryService.getById(req.body.accessory); //Req
-
-    accessory.cubes.push(cube._id);
-    cube.accessories.push(req.body.accessory);
-
-    await accessoryService.editAceessoryById(req.body.accessory,accessory); //Req
-    await cubeService.editCubeById(cube._id,cube); //Req
+    await accessoryService.attachAccessory(req.params.id,req.body.accessory);
 
     res.redirect('/');
-
-    //For future may be done better
 });
 
 exports.accessoryController = router;
