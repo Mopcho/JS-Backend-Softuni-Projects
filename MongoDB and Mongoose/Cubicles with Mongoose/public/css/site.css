@@ -250,6 +250,25 @@ footer {
     font-size: 20px;
 }
 
+.form {
+    background-color:hwb(203 19% 13% / 0.762);
+    padding :60px;
+    height : 300px;
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+input[type='email'],input[type='password'],input[type='text'] {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    padding: 12px 20px 12px 12px;
+    border-radius: 0 4px 4px 4px;
+    margin: 8px 0 2em;
+}
+
 /*Animations & Transitions
 */
 

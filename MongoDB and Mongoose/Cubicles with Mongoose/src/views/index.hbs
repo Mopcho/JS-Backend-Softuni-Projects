@@ -1,5 +1,8 @@
     <main>
       <h1>Browser</h1>
+      {{#if token}}
+      <h2>Welcome {{token.username}}</h2>
+      {{/if}}
       <form action="" method="">
         <input type="text" class="search" name="search" placeholder="Search...">
         <input type="number" name="from" class="difficulty" placeholder="Difficulty from...">

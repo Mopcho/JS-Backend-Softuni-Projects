@@ -1,20 +1,23 @@
 const router = require('express').Router();
 const  { cubeService }  = require('../services/cubeService');
+const jwt = require('jsonwebtoken');
+const secret = 'MySecret123456';
 
-router.get('/',async (req,res)=> {
-    if(req.query.search || req.query.from || req.query.to) {
-        let search = req.query.search;
-        let from = req.query.from;
-        let to = req.query.to;
+router.get('/',(req,res)=> {
+    let {search,from,to} = req.query;
 
-        let cubes = await cubeService.searchByNameAndDiff(search,from,to);
+    let token = req.cookies['session'];
 
-        res.render('index',{cubes : cubes});
-    }
-    else  {
-        let allCubes = await cubeService.getAll();
+    if(token) {
+        jwt.verify(token,secret,async (err,decodedToken)=> {
+            if(err) {
+                res.status(401).send('Invalid token');
+            }
 
-        res.render('index', {cubes : allCubes});
+            let cubes = await cubeService.getAll(search,from,to);
+        
+            res.render('index',{cubes : cubes,token : decodedToken});
+        })
     }
 }); 
 

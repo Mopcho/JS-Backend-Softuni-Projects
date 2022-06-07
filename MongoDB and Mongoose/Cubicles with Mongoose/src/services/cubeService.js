@@ -14,10 +14,16 @@ async function postCube(cube) {
     await newCube.save();
 }
 
-async function getAll() {
-    let allCubes = await Cube.find().lean();
+async function getAll(nameI,fromI,toI) {
+    let from = fromI == '' || fromI ==undefined? 0 : Number(fromI);
+    let to = toI == '' || toI == undefined? 6 : Number(toI);
+    let name = nameI == undefined? '' : nameI;
 
-    return allCubes;
+    console.log(from,to);
+
+    let cubes = await Cube.find({ "name": { "$regex": name, "$options": "i" } }).where("difficultyLevel").lte(to).gte(from).lean();
+
+    return cubes;
 }
 
 async function getCubeById(id) {
@@ -28,27 +34,6 @@ async function getCubeById(id) {
 
 async function likeCubeById(id) {
     await Cube.findByIdAndUpdate(id,{ $inc: { likes : 1 } });
-}
-
-async function searchByNameAndDiff(name = '',fromI = 0,toI = 7) {
-    let from;
-    let to;
-
-    if (fromI == '') {
-        from = 0;
-    } else {
-        from = Number(fromI) - 1;
-    }
-
-    if(toI == '') {
-        to = 7;
-    } else {
-        to = Number(toI) + 1;
-    }
-
-    let cubes = await Cube.find({ "name": { "$regex": name, "$options": "i" } }).where("difficultyLevel").lt(to).gt(from).lean();
-
-    return cubes;
 }
 
 async function editCubeById(id,cube) {
@@ -73,7 +58,6 @@ exports.cubeService = {
     getAll,
     getCubeById,
     likeCubeById,
-    searchByNameAndDiff,
     editCubeById,
     getCubeWithAccessoriesById
 }
