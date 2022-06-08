@@ -1,15 +1,25 @@
+const mongoose = require("mongoose");
 const { Cube } = require("../Models/Cube")
+const { User } = require("../Models/User")
 
-async function postCube(cube) {
+async function postCube(cube,userEmail) {
     let newCube = new Cube(
         {
+        _id : new mongoose.Types.ObjectId(),
         name : cube.name, 
         description : cube.description,
         difficultyLevel : cube.difficultyLevel,
         imgPath : cube.imgPath,
+        user : cube.user,
         likes : cube.likes,
         accessories : cube.accessories
         });
+
+    let user = await User.findOne({email : userEmail});
+
+    user.cubes.push(newCube._id);
+
+    await user.save();
 
     await newCube.save();
 }
@@ -18,8 +28,6 @@ async function getAll(nameI,fromI,toI) {
     let from = fromI == '' || fromI ==undefined? 0 : Number(fromI);
     let to = toI == '' || toI == undefined? 6 : Number(toI);
     let name = nameI == undefined? '' : nameI;
-
-    console.log(from,to);
 
     let cubes = await Cube.find({ "name": { "$regex": name, "$options": "i" } }).where("difficultyLevel").lte(to).gte(from).lean();
 

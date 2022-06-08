@@ -15,8 +15,19 @@ router.get('/',(req,res)=> {
             }
 
             let cubes = await cubeService.getAll(search,from,to);
-        
-            res.render('index',{cubes : cubes,token : decodedToken});
+
+            let authorizedCubes = [];
+            let unAuthorizedCubes = [];
+
+            for (let cube of cubes) {
+                if(cube.user == decodedToken._id) {
+                    authorizedCubes.push(cube);
+                } else {
+                    unAuthorizedCubes.push(cube);
+                }
+            }
+
+            res.render('index',{unAuthorizedCubes : unAuthorizedCubes,token : decodedToken, authorizedCubes : authorizedCubes});
         })
     }
 }); 

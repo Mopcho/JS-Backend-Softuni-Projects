@@ -22,7 +22,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required : true
     },
-    
+    cubes : [{
+        type : mongoose.Types.ObjectId,
+        ref : 'Cube'
+    }]
 });
 
 const User = mongoose.model('User',userSchema);

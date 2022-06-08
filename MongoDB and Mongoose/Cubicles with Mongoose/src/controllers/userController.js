@@ -1,7 +1,8 @@
 const router = require('express').Router();
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const  { userService }  = require('../services/userService');
+
+const jwt = require('jsonwebtoken');
 const secret = 'MySecret123456';
 
 router.get('/login', (req,res)=> {
@@ -22,7 +23,7 @@ router.post('/login',async (req,res)=> {
     const isAuthenticated = await bcrypt.compare(password,user.password);
 
     if(isAuthenticated) {
-        const token = jwt.sign({username : user.username,email: user.email},secret,{expiresIn: '2d'});
+        const token = jwt.sign({username : user.username,email: user.email, _id : user._id},secret,{expiresIn: '2d'});
 
         res.cookie('session',token);
         res.redirect('/');
