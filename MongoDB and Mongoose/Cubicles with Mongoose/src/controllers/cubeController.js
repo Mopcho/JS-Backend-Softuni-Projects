@@ -74,4 +74,18 @@ router.post('/edit/:id', async (req,res)=> {
     res.redirect('/');
 });
 
+router.get('/delete',(req,res)=> {
+    let token = req.cookies['session'];
+    
+    if(token) {
+        res.render('delete');
+    } else {
+        res.redirect('/');
+    }
+});
+
+router.post('/delete', (req,res)=> {
+
+});
+
 exports.cubeController = router;

@@ -30,7 +30,6 @@ initializeDatabase()
 
 
 //Logout Functionality
-//Guest View | Logged in View
 //Delete Cube Page
 //IMPORTANT : Refactor !!!!!!!
 
