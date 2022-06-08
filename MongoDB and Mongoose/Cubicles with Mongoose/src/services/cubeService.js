@@ -64,11 +64,16 @@ async function getCubeWithAccessoriesById(cubeId) {
     return cube;
 }
 
+async function deleteCubeById(cubeId) {
+    await Cube.deleteOne({_id: cubeId});
+}
+
 exports.cubeService = {
     postCube,
     getAll,
     getCubeById,
     likeCubeById,
     editCubeById,
-    getCubeWithAccessoriesById
+    getCubeWithAccessoriesById,
+    deleteCubeById
 }
