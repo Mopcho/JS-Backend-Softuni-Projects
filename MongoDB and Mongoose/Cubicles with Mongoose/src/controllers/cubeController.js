@@ -13,45 +13,38 @@ router.get('/details/:id',async (req,res)=> {
     res.render('details', {cube : cube});
 }); 
 
-router.post('/create',(req,res)=> {
-    jwt.verify(req.cookies['session'],secret,async (err,decodedToken)=> {
-        if(err) {
-            res.status(400).send('Invalid Token');
-        }
-
+router.post('/create',async (req,res)=> {
         let cubeObj = {
             name : req.body.name,
             description : req.body.description,
             imgPath : req.body.imageUrl,
             difficultyLevel : req.body.difficultyLevel,
-            user : decodedToken._id,
+            user : req.decodedToken._id,
             accessories : []
         }
 
-        await cubeService.postCube(cubeObj,decodedToken.email);
+        await cubeService.postCube(cubeObj,req.decodedToken.email);
 
         res.redirect('/');
-    });
 });
 
-router.get('/like/:id', (req,res)=> {
-    const token = req.cookies['session'];
+router.get('/like/:id',async  (req,res)=> {
+    let cube = await cubeService.getCubeById(req.params.id);
 
-    jwt.verify(token,secret,async (err,decodedToken)=> {
-        if(err) {
-            res.statusCode(400).send('Invalid Token');
+    let isIncluded = false;
+    for (let x of cube.likes) {
+        if(x._id.toString().includes(req.decodedToken._id.toString())) {
+            isIncluded = true;
         }
+    }
 
-        let cube = await cubeService.getCubeById(req.params.id);
+    if(req.decodedToken._id != cube.user && !isIncluded) {
+        await cubeService.likeCubeById(req.params.id , req.decodedToken._id);
+        res.redirect('/');
+    } else {
+        res.send('Cant like this cube!');
+    }
 
-        if(decodedToken._id != cube.user && cube.likes.includes(decodedToken._id)) {
-            await cubeService.likeCubeById(req.params.id,decodedToken._id);
-            res.redirect('/');
-        } else {
-            res.send('Cant like this cube!');
-        }
-
-    });
 });
 
 router.get('/edit/:id', async (req,res)=> {

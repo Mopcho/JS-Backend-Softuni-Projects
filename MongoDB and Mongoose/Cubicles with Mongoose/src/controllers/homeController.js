@@ -9,26 +9,20 @@ router.get('/',async (req,res)=> {
     let token = req.cookies['session'];
 
     if(token) {
-        jwt.verify(token,secret,async (err,decodedToken)=> {
-            if(err) {
-                res.status(401).send('Invalid token');
+        let cubes = await cubeService.getAll(search,from,to);
+
+        let authorizedCubes = [];
+        let unAuthorizedCubes = [];
+
+        for (let cube of cubes) {
+            if(cube.user == req.decodedToken._id) {
+                authorizedCubes.push(cube);
+            } else {
+                unAuthorizedCubes.push(cube);
             }
+        }
 
-            let cubes = await cubeService.getAll(search,from,to);
-
-            let authorizedCubes = [];
-            let unAuthorizedCubes = [];
-
-            for (let cube of cubes) {
-                if(cube.user == decodedToken._id) {
-                    authorizedCubes.push(cube);
-                } else {
-                    unAuthorizedCubes.push(cube);
-                }
-            }
-
-            res.render('index',{unAuthorizedCubes : unAuthorizedCubes,token : decodedToken, authorizedCubes : authorizedCubes});
-        })
+        res.render('index',{unAuthorizedCubes : unAuthorizedCubes,token : req.decodedToken, authorizedCubes : authorizedCubes});
     } else {
             let unAuthorizedCubes = await cubeService.getAll();
 
