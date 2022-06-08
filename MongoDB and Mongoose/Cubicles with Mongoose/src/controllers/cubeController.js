@@ -1,7 +1,5 @@
 const router = require('express').Router();
-const jwt = require('jsonwebtoken');
 const {cubeService }= require('../services/cubeService');
-const secret = 'MySecret123456';
 
 router.get('/create',(req,res)=> {
     res.render('create');

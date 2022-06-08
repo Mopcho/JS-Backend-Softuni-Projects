@@ -2,9 +2,6 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const  { userService }  = require('../services/userService');
 
-const jwt = require('jsonwebtoken');
-const secret = 'MySecret123456';
-
 router.get('/login', (req,res)=> {
     let token = req.cookies['session'];
     
