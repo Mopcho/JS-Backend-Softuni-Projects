@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const secret = 'MySecret123456';
 
 router.get('/login', (req,res)=> {
+    let token = req.cookies['session'];
+    
     if(token) {
         res.render('login');
     } else {
@@ -37,6 +39,8 @@ router.post('/login',async (req,res)=> {
 });
 
 router.get('/register', (req,res)=> {
+    let token = req.cookies['session'];
+
     if(token) {
         res.render('register');
     } else {
