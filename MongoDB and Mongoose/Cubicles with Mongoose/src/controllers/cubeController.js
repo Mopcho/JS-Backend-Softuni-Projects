@@ -58,7 +58,7 @@ router.get('/like/:id', (req,res)=> {
 router.get('/edit/:id', async (req,res)=> {
     let cube = await cubeService.getCubeById(req.params.id);
  
-    res.render('create', {cube : cube})
+    res.render('edit', {cube : cube})
 });
 
 router.post('/edit/:id', async (req,res)=> {
@@ -74,11 +74,13 @@ router.post('/edit/:id', async (req,res)=> {
     res.redirect('/');
 });
 
-router.get('/delete',(req,res)=> {
+router.get('/delete/:id',async (req,res)=> {
     let token = req.cookies['session'];
+
+    let cube = await cubeService.getCubeById(req.params.id);
     
     if(token) {
-        res.render('delete');
+        res.render('delete',{cube : cube});
     } else {
         res.redirect('/');
     }
