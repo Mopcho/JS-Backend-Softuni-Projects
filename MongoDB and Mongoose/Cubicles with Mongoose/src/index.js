@@ -29,7 +29,5 @@ initializeDatabase()
     });
 
 
-//Logout Functionality
-//Delete Cube Page
 //IMPORTANT : Refactor !!!!!!!
 

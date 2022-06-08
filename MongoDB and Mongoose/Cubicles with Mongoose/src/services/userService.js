@@ -25,5 +25,5 @@ async function getUsers(username) {
 exports.userService = {
     saveUser,
     getUser,
-    getUsers
+    getUsers,
 }

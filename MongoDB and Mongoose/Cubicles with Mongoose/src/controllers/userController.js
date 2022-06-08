@@ -64,5 +64,11 @@ router.post('/register',async (req,res)=> {
     res.redirect('/user/login');
 });
 
+router.get('/logout' , async (req,res)=> {
+    res.clearCookie('session');
+
+    res.redirect('/');
+});
+
 
 exports.userController = router;

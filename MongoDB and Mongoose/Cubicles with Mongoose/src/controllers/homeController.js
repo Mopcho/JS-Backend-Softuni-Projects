@@ -37,7 +37,14 @@ router.get('/',async (req,res)=> {
 }); 
 
 router.get('/about',(req,res)=> {
+    let token = req.cookies['session'];
+    
+    if(token) {
+        res.render('about');
+    } else {
         res.render('about', {layout : 'guestMain'})
+    }
+    
 }); 
 
 exports.homeController = router;

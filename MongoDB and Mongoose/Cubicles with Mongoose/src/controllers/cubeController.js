@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const { accessoryService } = require('../services/accessoryService');
 const {cubeService }= require('../services/cubeService');
 const secret = 'MySecret123456';
 
