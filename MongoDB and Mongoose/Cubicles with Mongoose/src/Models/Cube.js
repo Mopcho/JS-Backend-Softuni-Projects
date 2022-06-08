@@ -15,7 +15,10 @@ const cubeSchema = new mongoose.Schema({
         min : [1, 'Difficulty cant be below 1'],
         max : [6, 'Difficulty cant be above 6']
     },
-    likes : Number,
+    likes : [{
+        type : mongoose.Types.ObjectId,
+        ref : 'User'
+    }],
     imgPath : {
         type : String,
         validate : {

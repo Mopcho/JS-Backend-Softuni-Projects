@@ -6,7 +6,11 @@ const jwt = require('jsonwebtoken');
 const secret = 'MySecret123456';
 
 router.get('/login', (req,res)=> {
-    res.render('login');
+    if(token) {
+        res.render('login');
+    } else {
+        res.render('login', {layout : 'guestMain'})
+    }
 });
 
 router.post('/login',async (req,res)=> {
@@ -33,7 +37,11 @@ router.post('/login',async (req,res)=> {
 });
 
 router.get('/register', (req,res)=> {
-    res.render('register');
+    if(token) {
+        res.render('register');
+    } else {
+        res.render('register', {layout : 'guestMain'})
+    }
 });
 
 router.post('/register',async (req,res)=> {

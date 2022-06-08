@@ -26,7 +26,6 @@ router.post('/create',(req,res)=> {
             imgPath : req.body.imageUrl,
             difficultyLevel : req.body.difficultyLevel,
             user : decodedToken._id,
-            likes : 0,
             accessories : []
         }
 
@@ -36,10 +35,24 @@ router.post('/create',(req,res)=> {
     });
 });
 
-router.get('/like/:id', async (req,res)=> {
-    await cubeService.likeCubeById(req.params.id);
+router.get('/like/:id', (req,res)=> {
+    const token = req.cookies['session'];
 
-    res.redirect('/');
+    jwt.verify(token,secret,async (err,decodedToken)=> {
+        if(err) {
+            res.statusCode(400).send('Invalid Token');
+        }
+
+        let cube = await cubeService.getCubeById(req.params.id);
+
+        if(decodedToken._id != cube.user && cube.likes.includes(decodedToken._id)) {
+            await cubeService.likeCubeById(req.params.id,decodedToken._id);
+            res.redirect('/');
+        } else {
+            res.send('Cant like this cube!');
+        }
+
+    });
 });
 
 router.get('/edit/:id', async (req,res)=> {

@@ -11,7 +11,6 @@ async function postCube(cube,userEmail) {
         difficultyLevel : cube.difficultyLevel,
         imgPath : cube.imgPath,
         user : cube.user,
-        likes : cube.likes,
         accessories : cube.accessories
         });
 
@@ -40,8 +39,12 @@ async function getCubeById(id) {
     return cube;
 }
 
-async function likeCubeById(id) {
-    await Cube.findByIdAndUpdate(id,{ $inc: { likes : 1 } });
+async function likeCubeById(id,userId) {
+    let cube = await Cube.findOne({_id : id});
+
+    cube.likes.push(userId);
+
+    cube.save();
 }
 
 async function editCubeById(id,cube) {

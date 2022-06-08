@@ -3,7 +3,7 @@ const  { cubeService }  = require('../services/cubeService');
 const jwt = require('jsonwebtoken');
 const secret = 'MySecret123456';
 
-router.get('/',(req,res)=> {
+router.get('/',async (req,res)=> {
     let {search,from,to} = req.query;
 
     let token = req.cookies['session'];
@@ -29,11 +29,15 @@ router.get('/',(req,res)=> {
 
             res.render('index',{unAuthorizedCubes : unAuthorizedCubes,token : decodedToken, authorizedCubes : authorizedCubes});
         })
+    } else {
+            let unAuthorizedCubes = await cubeService.getAll();
+
+            res.render('index',{layout : 'guestMain',unAuthorizedCubes : unAuthorizedCubes});
     }
 }); 
 
 router.get('/about',(req,res)=> {
-    res.render('about');
+        res.render('about', {layout : 'guestMain'})
 }); 
 
 exports.homeController = router;
