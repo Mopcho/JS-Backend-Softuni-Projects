@@ -1,48 +1,28 @@
 const router = require('express').Router();
-const bcrypt = require('bcrypt');
+const { constants } = require('../configs/constants');
+const { endpoints } = require('../configs/endpoints');
 const  { userService }  = require('../services/userService');
 
 router.get('/login', (req,res)=> {
-    let token = req.cookies['session'];
-    
-    if(token) {
-        res.render('login');
-    } else {
-        res.render('login', {layout : 'guestMain'})
-    }
+    res.render(endpoints.login);
 });
 
 router.post('/login',async (req,res)=> {
     let email = req.body.email;
     let password = req.body.password;
 
-    if (password == '' || email == '') {
-        throw new Error('All fields must be filled!');
+    let token = await userService.login(email,password);
+
+    if(!token) {
+        return res.redirect('/404');
     }
-    
-    //Check if there is a match of email
-    let user = await userService.getUser(email);
 
-    const isAuthenticated = await bcrypt.compare(password,user.password);
-
-    if(isAuthenticated) {
-        const token = jwt.sign({username : user.username,email: user.email, _id : user._id},secret,{expiresIn: '2d'});
-
-        res.cookie('session',token);
-        res.redirect('/');
-    } else {
-        res.send('Invalid password or email!');
-    }
+    res.cookie(constants.session,token);
+    res.redirect('/');
 });
 
 router.get('/register', (req,res)=> {
-    let token = req.cookies['session'];
-
-    if(token) {
-        res.render('register');
-    } else {
-        res.render('register', {layout : 'guestMain'})
-    }
+    res.render(endpoints.register);
 });
 
 router.post('/register',async (req,res)=> {
@@ -50,13 +30,7 @@ router.post('/register',async (req,res)=> {
     let email = req.body.email;
     let password = req.body.password;
 
-    if (username == '' || password == '' || email == '') {
-        throw new Error('All fields must be filled!');
-    }
-
-    const hashedPassword =  await bcrypt.hash(password,10);
-
-    await userService.saveUser({username,email,password : hashedPassword});
+    await userService.saveUser({username,email,password});
 
     res.redirect('/user/login');
 });
@@ -67,5 +41,5 @@ router.get('/logout' , async (req,res)=> {
     res.redirect('/');
 });
 
-
 exports.userController = router;
+

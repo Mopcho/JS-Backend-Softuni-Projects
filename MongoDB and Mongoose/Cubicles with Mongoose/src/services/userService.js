@@ -1,15 +1,38 @@
 const {User} = require('../Models/User');
+const {constants} = require('../configs/constants');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-async function saveUser(user) {
-    const userObj = new User(
-        {
-            username : user.username,
-            email : user.email,
-            password : user.password,
-        }
-    )
+async function register(user) {
+    
+}
 
-    await userObj.save();
+async function login(email,password) {
+    //If there is a user with that combination
+    //Set his username and email to the cookie  
+    let user = await User.findOne({email : email});
+    
+    if(!user) {
+        return false;
+    }
+
+    let isCorrect = await bcrypt.compare(password,user.password);
+
+    if(!isCorrect) {
+        return false;
+    }
+
+    let result = new Promise((resolve,reject) => {
+        jwt.sign({_id : user._id,email : user.email, username : user.username},constants.secret,{expiresIn : '2d'}, (err,token)=> {
+            if(err) {
+                return reject(err);
+            }
+
+            resolve(token);
+        });
+    });
+
+    return result;
 }
 
 async function getUser(email) {
@@ -18,12 +41,8 @@ async function getUser(email) {
     return userObj;
 }
 
-async function getUsers(username) {
-
-}
-
 exports.userService = {
-    saveUser,
+    register,
     getUser,
-    getUsers,
+    login
 }

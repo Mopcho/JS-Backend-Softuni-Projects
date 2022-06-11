@@ -1,12 +1,14 @@
 const router = require('express').Router();
 const {accessoryService }= require('../services/accessoryService');
 const { cubeService } = require('../services/cubeService');
+const {isAuth} = require('../Middlewares/authMiddleware');
+const { endpoints } = require('../configs/endpoints');
 
-router.get('/create', (req,res) => {
-    res.render('createAccessory');
+router.get('/create',isAuth, (req,res) => {
+    res.render(endpoints.accessoryCreate);
 });
 
-router.post('/create', async (req,res)=> {
+router.post('/create',isAuth, async (req,res)=> {
     let accessoryObj = {
         name : req.body.name,
         imgPath : req.body.imageUrl,
@@ -19,14 +21,14 @@ router.post('/create', async (req,res)=> {
     res.redirect('/');
 });
 
-router.get('/attach/:id',async  (req,res) => {
+router.get('/attach/:id',isAuth,async  (req,res) => {
     let cube = await cubeService.getCubeById(req.params.id);
     let accessories = await accessoryService.filterOut(cube.accessories); 
 
-    res.render('attachAccessory', {accessories : accessories, cube : cube});
+    res.render(endpoints.accessoryAttach, {accessories : accessories, cube : cube});
 });
 
-router.post('/attach/:id', async (req,res)=> {
+router.post('/attach/:id',isAuth, async (req,res)=> {
     await accessoryService.attachAccessory(req.params.id,req.body.accessory);
 
     res.redirect('/');

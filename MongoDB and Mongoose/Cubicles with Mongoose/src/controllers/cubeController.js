@@ -1,32 +1,36 @@
 const router = require('express').Router();
 const {cubeService }= require('../services/cubeService');
+const {isAuth} = require('../Middlewares/authMiddleware');
+const { endpoints } = require('../configs/endpoints');
 
-router.get('/create',(req,res)=> {
-    res.render('create');
+router.get('/create', isAuth ,(req,res)=> {
+    res.render(endpoints.cubeCreate);
 }); 
 
 router.get('/details/:id',async (req,res)=> {
     let cube = await cubeService.getCubeWithAccessoriesById(req.params.id);
 
-    res.render('details', {cube : cube});
+    const isOwner = req.user?._id == cube.user;
+
+    res.render(endpoints.cubeDetails, {cube : cube, isOwner});
 }); 
 
-router.post('/create',async (req,res)=> {
+router.post('/create',isAuth,async (req,res)=> {
         let cubeObj = {
             name : req.body.name,
             description : req.body.description,
             imgPath : req.body.imageUrl,
             difficultyLevel : req.body.difficultyLevel,
-            user : req.decodedToken._id,
+            user : req.user._id,
             accessories : []
         }
 
-        await cubeService.postCube(cubeObj,req.decodedToken.email);
+        await cubeService.postCube(cubeObj,req.user.email);
 
         res.redirect('/');
 });
 
-router.get('/like/:id',async  (req,res)=> {
+router.get('/like/:id',isAuth,async  (req,res)=> {
     let cube = await cubeService.getCubeById(req.params.id);
 
     let isIncluded = false;
@@ -36,22 +40,21 @@ router.get('/like/:id',async  (req,res)=> {
         }
     }
 
-    if(req.decodedToken._id != cube.user && !isIncluded) {
-        await cubeService.likeCubeById(req.params.id , req.decodedToken._id);
+    if(req.user._id != cube.user && !isIncluded) {
+        await cubeService.likeCubeById(req.params.id , req.user._id);
         res.redirect('/');
     } else {
         res.send('Cant like this cube!');
     }
-
 });
 
-router.get('/edit/:id', async (req,res)=> {
+router.get('/edit/:id',isAuth, async (req,res)=> {
     let cube = await cubeService.getCubeById(req.params.id);
  
-    res.render('edit', {cube : cube})
+    res.render(endpoints.cubeEdit, {cube : cube})
 });
 
-router.post('/edit/:id', async (req,res)=> {
+router.post('/edit/:id',isAuth, async (req,res)=> {
     let cubeObj = {
         name : req.body.name,
         description : req.body.description,
@@ -64,19 +67,13 @@ router.post('/edit/:id', async (req,res)=> {
     res.redirect('/');
 });
 
-router.get('/delete/:id',async (req,res)=> {
-    let token = req.cookies['session'];
-
+router.get('/delete/:id',isAuth,async (req,res)=> {
     let cube = await cubeService.getCubeById(req.params.id);
-    
-    if(token) {
-        res.render('delete',{cube : cube});
-    } else {
-        res.redirect('/');
-    }
+
+    res.render(endpoints.cubeDelete,{cube : cube});
 });
 
-router.post('/delete/:id', async (req,res)=> {
+router.post('/delete/:id',isAuth, async (req,res)=> {
     await cubeService.deleteCubeById(req.params.id);
 
     res.redirect('/');
