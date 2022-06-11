@@ -4,7 +4,16 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 async function register(user) {
-    
+    console.log(user)
+
+    //Validate
+    if (!(user.email && user.username && user.password)) {
+        return false;
+    }
+
+    let hashedPassword = await bcrypt.hash(user.password,constants.salt);
+
+    await User.create({username : user.username, password : hashedPassword, email : user.email});
 }
 
 async function login(email,password) {

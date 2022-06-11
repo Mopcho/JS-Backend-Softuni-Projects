@@ -4,7 +4,7 @@ const { endpoints } = require('../configs/endpoints');
 const  { userService }  = require('../services/userService');
 
 router.get('/login', (req,res)=> {
-    res.render(endpoints.login);
+    res.render(endpoints.userLogin);
 });
 
 router.post('/login',async (req,res)=> {
@@ -22,7 +22,7 @@ router.post('/login',async (req,res)=> {
 });
 
 router.get('/register', (req,res)=> {
-    res.render(endpoints.register);
+    res.render(endpoints.userRegister);
 });
 
 router.post('/register',async (req,res)=> {
@@ -30,7 +30,11 @@ router.post('/register',async (req,res)=> {
     let email = req.body.email;
     let password = req.body.password;
 
-    await userService.saveUser({username,email,password});
+    let result = await userService.register({username,email,password});
+
+    if(result) {
+        return res.redirect('/404');
+    }
 
     res.redirect('/user/login');
 });
