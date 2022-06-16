@@ -32,13 +32,5 @@ initializeDatabase()
 
 //IMPORTANT : Refactor !!!!!!!
 
-//Refactor views folder
-//Check cube and accessory controllers
-//Refactor cubeService
-//Refactor accessorySErvice
-
 //Bugs :
 //If token is expired it bugs in the middleware
-
-//Validation on Mongoose and Service
-//Controllers just get the data and send it to the service that does the request and returns the data
