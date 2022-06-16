@@ -2,6 +2,8 @@ const router = require('express').Router();
 const {cubeService }= require('../services/cubeService');
 const {isAuth} = require('../Middlewares/authMiddleware');
 const { endpoints } = require('../configs/endpoints');
+const { body, validationResult } = require('express-validator');
+
 
 router.get('/create', isAuth ,(req,res)=> {
     res.render(endpoints.cubeCreate);
@@ -15,7 +17,11 @@ router.get('/details/:id',async (req,res)=> {
     res.render(endpoints.cubeDetails, {cube : cube, isOwner});
 }); 
 
-router.post('/create',isAuth,async (req,res)=> {
+router.post('/create',isAuth,
+body('name','Invalid Name').isLength({min : 5}).matches(/([A-Za-z0-9 ])/g),
+body('description','Invalid Description').isLength({min : 20,max : 50}).matches(/([A-Za-z0-9 ])/g),
+body('imageUrl','Invalid Image URL').isURL(),
+async (req,res)=> {
         let cubeObj = {
             name : req.body.name,
             description : req.body.description,
@@ -23,6 +29,11 @@ router.post('/create',isAuth,async (req,res)=> {
             difficultyLevel : req.body.difficultyLevel,
             user : req.user._id,
             accessories : []
+        }
+
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.render(endpoints.cubeCreate, {errorsMsg : errors.errors[0].msg});
         }
 
         await cubeService.postCube(cubeObj,req.user.email);
