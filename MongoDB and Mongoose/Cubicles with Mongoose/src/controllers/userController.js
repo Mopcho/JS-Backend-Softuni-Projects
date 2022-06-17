@@ -8,7 +8,8 @@ router.get('/login', (req,res)=> {
     res.render(endpoints.userLogin);
 });
 
-router.post('/login',async (req,res)=> {
+router.post('/login',
+async (req,res)=> {
     let email = req.body.email;
     let password = req.body.password;
 

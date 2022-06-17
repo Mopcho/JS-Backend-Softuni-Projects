@@ -8,7 +8,7 @@ router.get('/create',isAuth, (req,res) => {
     res.render(endpoints.accessoryCreate);
 });
 
-router.post('/create',isAuth, async (req,res)=> {
+router.post('/create',isAuth, async (req,res,next)=> {
     let accessoryObj = {
         name : req.body.name,
         imgPath : req.body.imageUrl,
@@ -16,9 +16,13 @@ router.post('/create',isAuth, async (req,res)=> {
         cubes : []
     }
 
-    await accessoryService.createAccessory(accessoryObj);
+    try {
+        await accessoryService.createAccessory(accessoryObj);
 
-    res.redirect('/');
+        res.redirect('/');
+    } catch(err) {
+        next(err,req,res);
+    }
 });
 
 router.get('/attach/:id',isAuth,async  (req,res) => {

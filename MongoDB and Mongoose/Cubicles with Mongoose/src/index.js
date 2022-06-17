@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const { initializeDatabase } = require('./configs/database');
 const { router } = require('./router');
 const { auth } = require('./Middlewares/authMiddleware');
+const { errorHandler } = require('./Middlewares/errorHandler');
 
 const port = 5000;
 const app = express();
@@ -20,6 +21,7 @@ app.set('views','./src/views');
 app.use(express.urlencoded({extended:false}));
 app.use(auth);
 app.use(router);
+app.use(errorHandler);
 
 initializeDatabase()
     .then(() => {
@@ -29,8 +31,8 @@ initializeDatabase()
         console.log('Cannot connect to db:', err);
     });
 
+//In case of expected errors display error message user friendly way
 
-//IMPORTANT : Refactor !!!!!!!
 
 //Bugs :
 //If token is expired it bugs in the middleware
