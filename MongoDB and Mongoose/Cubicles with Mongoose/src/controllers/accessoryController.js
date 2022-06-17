@@ -21,19 +21,52 @@ router.post('/create',isAuth, async (req,res,next)=> {
 
         res.redirect('/');
     } catch(err) {
-        next(err,req,res);
+
+        let errorMsg;
+
+        if (err.name === 'ValidationError') {
+            errorMsg = Object.values(err.errors).map(val => val.message).join(' ');
+        }
+
+        next(errorMsg,req,res);
     }
 });
 
 router.get('/attach/:id',isAuth,async  (req,res) => {
-    let cube = await cubeService.getCubeById(req.params.id);
-    let accessories = await accessoryService.filterOut(cube.accessories); 
+    try {
+        let cube = await cubeService.getCubeById(req.params.id);
+        let accessories = await accessoryService.filterOut(cube.accessories); 
+    
+        res.render(endpoints.accessoryAttach, {accessories : accessories, cube : cube});
+    } catch(err) {
 
-    res.render(endpoints.accessoryAttach, {accessories : accessories, cube : cube});
+        let errorMsg;
+
+        if (err.name === 'ValidationError') {
+            errorMsg = Object.values(err.errors).map(val => val.message).join(' ');
+        } else {
+            errorMsg = err;
+        }
+
+        next(errorMsg,req,res);
+    }
 });
 
 router.post('/attach/:id',isAuth, async (req,res)=> {
-    await accessoryService.attachAccessory(req.params.id,req.body.accessory);
+    try {
+        await accessoryService.attachAccessory(req.params.id,req.body.accessory);
+    } catch(err) {
+
+        let errorMsg;
+
+        if (err.name === 'ValidationError') {
+            errorMsg = Object.values(err.errors).map(val => val.message).join(' ');
+        } else {
+            errorMsg = err;
+        }
+
+        next(errorMsg,req,res);
+    }
 
     res.redirect('/');
 });

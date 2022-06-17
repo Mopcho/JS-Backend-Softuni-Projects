@@ -3,19 +3,23 @@ const mongoose = require('mongoose');
 const accessorySchema = new mongoose.Schema({
     name : {
         type : String,
-        required : true
+        required : [true,'Name is required!']
     },
     imgPath : {
         type : String,
         validate : {
             validator : function(v) {
-                return v.includes('http');
+                if(v.includes('http')) {
+                    return true;
+                } else {
+                    throw new Error('Image must be a valid link!')
+                }
             }
         }
     },
     description : {
         type: String,
-        required : true,
+        required : [true, 'Description is required!'],
         maxlength : [50, 'Too long description !']
     },
     cubes : [{
