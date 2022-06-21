@@ -32,6 +32,6 @@ const publicationSchema = new mongoose.Schema({
     }]
 });
 
-const Publication = mongoose.Model('Publication',publicationSchema);
+const Publication = mongoose.model('Publication',publicationSchema);
 
 exports.Publication = Publication;
