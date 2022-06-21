@@ -1,8 +1,8 @@
-@import url('./home.css');
-@import url('./site.css');
-@import url('./register-login.css');
-@import url('./404.css');
-@import url('./gallery.css');
-@import url('./create-edit.css');
-@import url('./details.css');
-@import url('./profile.css');
+@import url('/css/home.css');
+@import url('/css/site.css');
+@import url('/css/register-login.css');
+@import url('/css/404.css');
+@import url('/css/gallery.css');
+@import url('/css/create-edit.css');
+@import url('/css/details.css');
+@import url('/css/profile.css');

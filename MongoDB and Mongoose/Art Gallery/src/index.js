@@ -3,6 +3,7 @@ const { constants } = require('./configs/constants');
 const { initializeDatabase } = require('./configs/database');
 const hbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
+const { router } = require('./routes');
 
 const app = express();
 
@@ -18,9 +19,11 @@ app.set('views','./src/views');
 //Setup bodyParser
 app.use(express.urlencoded({extended:false}));
 
+app.use(router);
+
 initializeDatabase()
 .then(()=> {
-    app.listen(constants.port, `Server listnening on port ${app.port}`);
+    app.listen(constants.port, ()=> {console.log(`Server listnening on port ${constants.port}`)});
 }).catch((err)=> {
-    console.log('Cant Connect To DataBase');
+    console.err('Cant Connect To DataBase');
 });
