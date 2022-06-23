@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { constants } = require('../configs/constants');
 const userService = require('../services/userService');
 
+
 router.get('/login',(req,res)=> {
     res.render('login');
 });

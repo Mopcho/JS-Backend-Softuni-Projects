@@ -5,10 +5,10 @@
                 <article class="details-card">
 
                     <article class="details-card-text">
-                        <h2>Title:<br> Spring in the garden</h2>
-                        <h3>Author: alex01</h3>
-                        <h3>Painting technique: Oil paints</h3>
-                        <h3>Certificate of authenticity: Yes</h3>
+                        <h2>Title:<br> {{publicationtitle}}</h2>
+                        <h3>Author: {{publication.author.username}}</h3>
+                        <h3>Painting technique: {{publication.paintingTechnique}}</h3>
+                        <h3>Certificate of authenticity: {{publication.certificateOfAuthenticity}}</h3>
 
                         <!-- If there is no registered user, do not display buttons-->
                         <div class="buttons">
@@ -24,7 +24,7 @@
                     </article>
 
                     <article class="details-card-image">
-                        <img src="/img/img-5.jpg" alt="art-image2">
+                        <img src="{{publication.artPicture}}" alt="art-image2">
                     </article>
 
                 </article>

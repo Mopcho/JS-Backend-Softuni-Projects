@@ -1,6 +1,6 @@
 const {Publication} = require('../models/Publication');
 
-async function create({title,paintingTechnique,artPicture,certificateOfAuthenticity}) {
+async function create({title,paintingTechnique,artPicture,certificateOfAuthenticity}, {_id}) {
     if(!title || !paintingTechnique || !artPicture || !certificateOfAuthenticity) {
         throw new Error('All fields must be filled!');
     }
@@ -10,7 +10,7 @@ async function create({title,paintingTechnique,artPicture,certificateOfAuthentic
     artPicture = artPicture.trim();
     certificateOfAuthenticity = certificateOfAuthenticity.trim().toLowerCase();
 
-    await Publication.create({title,paintingTechnique,artPicture,certificateOfAuthenticity});
+    await Publication.create({title,paintingTechnique,artPicture,certificateOfAuthenticity,author : _id});
 }
 
 async function getAll() {
@@ -19,7 +19,25 @@ async function getAll() {
     return publications;
 }
 
+
+async function getById({publicationId}) {
+    if(!publicationId) {
+        throw new Error('Invalid Publication')
+    }
+
+    let publication = await Publication.findById({_id : publicationId}).populate('author').lean();
+
+    console.log(publication);
+
+    if(!publication) {
+        throw new Error('Invalid Publication')
+    }
+
+    return publication;
+}
+
 module.exports = {
     create,
-    getAll
+    getAll,
+    getById
 }

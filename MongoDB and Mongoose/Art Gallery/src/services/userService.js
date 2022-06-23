@@ -3,6 +3,10 @@ const { constants } = require('../configs/constants');
 const {User} = require('../models/User');
 const jwt = require('jsonwebtoken');
 
+
+const util = require('node:util');
+let jwtVerify = util.promisify(jwt.verify);
+
 async function registerUser({username , password , repeatPassword , address}) {
     if (!username || !password || !repeatPassword || !address) {
         throw new Error('All fields must be filled!');
@@ -41,7 +45,7 @@ async function loginUser({username,password}) {
     }
 
     let jwtPromise = new Promise((resolve, reject)=> {
-        jwt.sign({username},constants.secret,{expiresIn : '2d'}, (err,token)=> {
+        jwt.sign({username, _id : user._id},constants.secret,{expiresIn : '2d'}, (err,token)=> {
             if(err) {
                 return reject(err);
             }
