@@ -18,7 +18,7 @@ const publicationSchema = new mongoose.Schema({
         required : [true,'Title is required!'],
         validator : {
             validate : (x) => {
-                return x == 'no' || x == 'yes';
+                return x.toLowerCase() == 'no' || x.toLowerCase() == 'yes';
             }
         }
     },
