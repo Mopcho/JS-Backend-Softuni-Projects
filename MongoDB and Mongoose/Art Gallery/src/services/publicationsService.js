@@ -13,6 +13,13 @@ async function create({title,paintingTechnique,artPicture,certificateOfAuthentic
     await Publication.create({title,paintingTechnique,artPicture,certificateOfAuthenticity});
 }
 
+async function getAll() {
+    let publications = await Publication.find().lean();
+
+    return publications;
+}
+
 module.exports = {
-    create
+    create,
+    getAll
 }

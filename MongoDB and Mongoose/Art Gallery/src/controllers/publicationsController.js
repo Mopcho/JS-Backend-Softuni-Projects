@@ -3,8 +3,10 @@ const publicationsService = require('../services/publicationsService');
 
 const router = require('express').Router();
 
-router.get('/',(req,res)=> {
-    res.render('gallery');
+router.get('/',async (req,res)=> {
+    let publications = await publicationsService.getAll();
+
+    res.render('gallery',{publications : publications});
 });
 
 router.get('/create',auth,isAuth,(req,res)=> {
