@@ -37,4 +37,10 @@ router.get('/profile',(req,res)=> {
     res.render('profile');
 });
 
+router.get('/logout', (req,res)=> {
+    res.clearCookie[constants.session];
+
+    res.redirect('/');
+});
+
 exports.userController = router;
