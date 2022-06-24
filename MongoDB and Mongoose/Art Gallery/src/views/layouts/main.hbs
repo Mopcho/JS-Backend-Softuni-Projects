@@ -27,12 +27,15 @@
             <ul class="menu">
                 <li><a href="/publications">Gallery</a></li>
                 <!-- Logged users -->
+                {{#if user}}
                 <li><a href="/publications/create">Create Publication</a></li>
                 <li><a href="/user/profile">Profile</a></li>
-                <li><a href="#">Logout</a></li>
-                <!-- Guest users -->
+                <li><a href="/user/logout">Logout</a></li>
+                {{else}}
                 <li><a href="/user/login">Login</a></li>
                 <li><a href="/user/register">Register</a></li>
+                {{/if}}
+                <!-- Guest users -->
             </ul>
         </nav>
 

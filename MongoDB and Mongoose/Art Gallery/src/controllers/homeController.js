@@ -1,6 +1,8 @@
+const { auth } = require('../middlewares/authMiddleware');
+
 const router = require('express').Router();
 
-router.get('/',(req,res)=> {
+router.get('/',auth,(req,res)=> {
     res.render('home');
 })
 

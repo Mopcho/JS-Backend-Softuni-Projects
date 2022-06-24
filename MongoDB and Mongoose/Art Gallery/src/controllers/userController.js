@@ -39,7 +39,7 @@ router.get('/profile',(req,res)=> {
 });
 
 router.get('/logout', (req,res)=> {
-    res.clearCookie[constants.session];
+    res.clearCookie(constants.session);
 
     res.redirect('/');
 });
