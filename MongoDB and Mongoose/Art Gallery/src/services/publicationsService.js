@@ -19,15 +19,12 @@ async function getAll() {
     return publications;
 }
 
-
 async function getById({publicationId}) {
     if(!publicationId) {
         throw new Error('Invalid Publication')
     }
 
     let publication = await Publication.findById({_id : publicationId}).populate('author').lean();
-
-    console.log(publication);
 
     if(!publication) {
         throw new Error('Invalid Publication')
@@ -36,8 +33,29 @@ async function getById({publicationId}) {
     return publication;
 }
 
+async function share(publicationId,user) {
+    if(!user) {
+        throw new Error('Invalid user')
+    }
+
+    if (!publicationId) {
+        throw new Error('Invalid publication');
+    }
+
+    let publication = await Publication.findById(publicationId);
+
+    if(publication.usersShared.contains(user._id)) {
+        throw new Error('You cant share the same publication twice!');
+    }
+
+    publication.usersShared.push(user._id);
+
+    await publication.save();
+}
+
 module.exports = {
     create,
     getAll,
-    getById
+    getById,
+    share
 }

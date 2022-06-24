@@ -57,7 +57,14 @@ async function loginUser({username,password}) {
     return jwtPromise;
 }
 
+async function getUser(_id) {
+    let user = await User.findById({_id}).lean();
+
+    return user;
+}
+
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    getUser
 }
