@@ -31,8 +31,9 @@ router.get('/edit',auth,isAuth,(req,res)=> {
 router.get('/details/:publicationId',auth,async (req,res,next)=> {
     try {
         let publication = await publicationsService.getById(req.params);
-        let user = await userService.getUser(req.user._id);
 
+        let isOwner = publication.author._id == req.user._id; //Check for ownership
+        //Check if publication has been shared by this user already
         let isShared = false;
         for (let x of publication.usersShared) {
             if(x._id.toString().includes(req.user._id.toString())) {
@@ -40,7 +41,7 @@ router.get('/details/:publicationId',auth,async (req,res,next)=> {
             }
         }
 
-        res.render('details', {publication,isShared});
+        res.render('details', {publication,isShared,isOwner});
     } catch(err) {
         next(err);
     }
