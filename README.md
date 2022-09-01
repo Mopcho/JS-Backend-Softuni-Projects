@@ -1,2 +1,2 @@
 # JS-Web-Softuni-Projects
-A repository for JS WEB's workshops and exercises
+A repository for JS Backend's projects
